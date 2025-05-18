@@ -28,7 +28,7 @@ def preprocess_data(raw_data_path, output_csv_path, artifacts_path):
     for col in label_enc_cols:
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col])
-        label_encoders[col] = le  # simpan encoder per kolom
+        label_encoders[col] = le
 
     # One-Hot Encoding untuk kolom kategorikal lainnya
     df = pd.get_dummies(df, columns=['work_type', 'smoking_status'], drop_first=True)
@@ -40,19 +40,17 @@ def preprocess_data(raw_data_path, output_csv_path, artifacts_path):
 
     # Pastikan folder output CSV ada
     output_dir = os.path.dirname(output_csv_path)
-    if not os.path.exists(output_dir):
+    if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # Simpan dataset hasil preprocessing
     df.to_csv(output_csv_path, index=False)
     print(f"Preprocessing selesai. Data disimpan di: {output_csv_path}")
 
     # Pastikan folder artefak ada
     artifact_dir = os.path.dirname(artifacts_path)
-    if not os.path.exists(artifact_dir):
+    if artifact_dir and not os.path.exists(artifact_dir):
         os.makedirs(artifact_dir)
 
-    # Simpan artefak scaler dan label encoder
     artefak = {
         'scaler': scaler,
         'label_encoders': label_encoders
@@ -61,8 +59,9 @@ def preprocess_data(raw_data_path, output_csv_path, artifacts_path):
     print(f"Artefak preprocessing disimpan di: {artifacts_path}")
 
 if __name__ == "__main__":
-    RAW_DATA_PATH = "../healthcare-dataset-stroke-data.csv"
-    OUTPUT_CSV = "preprocessing/stroke_dataset_preprocessing.csv"
-    ARTIFACTS_PATH = "preprocessing/joblib/preprocessing_artifacts.joblib"
+    base_dir = os.path.dirname(__file__)
+    RAW_DATA_PATH = os.path.join(base_dir, "../healthcare-dataset-stroke-data.csv")
+    OUTPUT_CSV = os.path.join(base_dir, "stroke_dataset_preprocessing.csv")
+    ARTIFACTS_PATH = os.path.join(base_dir, "joblib/preprocessing_artifacts.joblib")
 
     preprocess_data(RAW_DATA_PATH, OUTPUT_CSV, ARTIFACTS_PATH)
