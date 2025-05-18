@@ -62,7 +62,7 @@ def preprocess_data(raw_data_path, output_csv_path, artifacts_path):
 
 if __name__ == "__main__":
     RAW_DATA_PATH = "../healthcare-dataset-stroke-data.csv"
-    OUTPUT_CSV = "preprocessing/stroke_dataset_preprocessing.csv"
+    OUTPUT_CSV = "stroke_dataset_preprocessing.csv"
     ARTIFACTS_PATH = "joblib/preprocessing_artifacts.joblib"
 
     preprocess_data(RAW_DATA_PATH, OUTPUT_CSV, ARTIFACTS_PATH)
